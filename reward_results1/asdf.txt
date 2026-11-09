@@ -1,0 +1,23 @@
+base_reward = float(base_reward) * 0.3
+
+        # to incentivize contact initially in learning, reward based off distance to object
+        dist_reward = (1.0 - metrics["agent_object_distance"] / self.distance_scale) * 0.5
+
+        # Reward progress (distance reductions), scaled to the 512x512 arena.
+        progress_reward = min(1, 1000*(
+            self.agent_object_weight
+            * (self._previous["agent_object_distance"] - metrics["agent_object_distance"])
+            + self.object_goal_weight
+            * (self._previous["object_goal_distance"] - metrics["object_goal_distance"])
+        ) / self.distance_scale)
+
+        angle_progress_reward = self.object_goal_angle_weight * (
+            self._previous["object_goal_angle_error"] - metrics["object_goal_angle_error"]
+        ) / np.pi
+
+        # Give a one-time bonus when contact is first made.
+        contact_reward = self.contact_bonus * float(
+            metrics["contact"] and not self._was_contact
+        )
+
+        reward = float(base_reward + dist_reward + progress_reward + angle_progress_reward + contact_reward) - 0.4

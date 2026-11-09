@@ -1,0 +1,329 @@
+base_reward = float(base_reward) * 0.25
+
+# to incentivize contact initially in learning, reward based off distance to object
+dist_reward = (1.0 - metrics["agent_object_distance"] / self.distance_scale) * 0.4
+
+# Reward progress (distance reductions), scaled to the 512x512 arena.
+progress_reward = min(1, 1000*(
+    self.agent_object_weight
+    * (self._previous["agent_object_distance"] - metrics["agent_object_distance"])
+    + self.object_goal_weight
+    * (self._previous["object_goal_distance"] - metrics["object_goal_distance"])
+) / self.distance_scale)
+
+angle_progress_reward = self.object_goal_angle_weight * (
+    self._previous["object_goal_angle_error"] - metrics["object_goal_angle_error"]
+) / np.pi
+
+# Give a one-time bonus when contact is first made.
+contact_reward = self.contact_bonus * float(
+    metrics["contact"] and not self._was_contact
+)
+
+reward = float(base_reward + dist_reward + progress_reward + angle_progress_reward + contact_reward) - 0.4
+
+
+#### Angle progress is too small
+
+
+### Logs:
+dist_reward 0.2618181815494914 | base_reward: 0.110790830904888 | progress_reward: -0.2181942658005476 | angle_progress_reward: 0.0
+Step 000/100 | Avg Reward: -41.4060 | Avg Episode Length: 300.0 | collect time: 8.44 s
+update policy in 0.39 s
+dist_reward 0.2167564550311849 | base_reward: 0.08139989390967069 | progress_reward: 0.40913277323130776 | angle_progress_reward: 0.0
+Step 001/100 | Avg Reward: -64.1752 | Avg Episode Length: 300.0 | collect time: 8.35 s
+update policy in 0.31 s
+dist_reward 0.23455669877150453 | base_reward: 0.09659480592249241 | progress_reward: -0.497538168717393 | angle_progress_reward: 0.0
+Step 002/100 | Avg Reward: -12.6376 | Avg Episode Length: 300.0 | collect time: 7.91 s
+update policy in 0.31 s
+dist_reward 0.27163735249816956 | base_reward: 0.16442113798616498 | progress_reward: 0.4905528723038455 | angle_progress_reward: 0.0
+Step 003/100 | Avg Reward: -4.8342 | Avg Episode Length: 300.0 | collect time: 7.35 s
+update policy in 0.30 s
+dist_reward 0.2572050706507627 | base_reward: 0.10413941235681552 | progress_reward: 0.3075292493610715 | angle_progress_reward: 0.0
+Step 004/100 | Avg Reward: -57.0620 | Avg Episode Length: 300.0 | collect time: 7.64 s
+update policy in 0.31 s
+dist_reward 0.29496450599408125 | base_reward: 0.14357907775066414 | progress_reward: -0.24904098468366276 | angle_progress_reward: 0.0
+Step 005/100 | Avg Reward: -74.5451 | Avg Episode Length: 300.0 | collect time: 7.47 s
+update policy in 0.29 s
+dist_reward 0.31795256048914283 | base_reward: 0.06608762127380213 | progress_reward: 0.1522841055275226 | angle_progress_reward: 0.0
+Step 006/100 | Avg Reward: -47.8095 | Avg Episode Length: 300.0 | collect time: 7.33 s
+update policy in 0.32 s
+dist_reward 0.2386190292343308 | base_reward: 0.18642592087929197 | progress_reward: 0.2176975880426424 | angle_progress_reward: 0.0
+Step 007/100 | Avg Reward: -59.1134 | Avg Episode Length: 300.0 | collect time: 8.38 s
+update policy in 0.32 s
+dist_reward 0.2683938647238996 | base_reward: 0.0879356076848821 | progress_reward: 0.21058529984170907 | angle_progress_reward: 0.0
+Step 008/100 | Avg Reward: -39.1143 | Avg Episode Length: 300.0 | collect time: 7.40 s
+update policy in 0.31 s
+dist_reward 0.31429243061434636 | base_reward: 0.08036684293952398 | progress_reward: 0.553430171632785 | angle_progress_reward: 0.0
+Step 009/100 | Avg Reward: -42.5454 | Avg Episode Length: 300.0 | collect time: 8.40 s
+update policy in 0.31 s
+dist_reward 0.2319701934583508 | base_reward: 0.09403511259464921 | progress_reward: 0.14870882279930941 | angle_progress_reward: 0.0
+Step 010/100 | Avg Reward: -41.8027 | Avg Episode Length: 300.0 | collect time: 7.98 s
+update policy in 0.30 s
+dist_reward 0.29697065455369537 | base_reward: 0.10198829945744943 | progress_reward: 0.3716228969775138 | angle_progress_reward: 0.0
+Step 011/100 | Avg Reward: -47.2044 | Avg Episode Length: 300.0 | collect time: 7.61 s
+update policy in 0.31 s
+dist_reward 0.2927511654199784 | base_reward: 0.08877256687129223 | progress_reward: -0.10440370505120367 | angle_progress_reward: 0.0
+Step 012/100 | Avg Reward: -7.9151 | Avg Episode Length: 300.0 | collect time: 8.03 s
+update policy in 0.29 s
+dist_reward 0.3506934232006848 | base_reward: 0.16791592266909403 | progress_reward: 1.0 | angle_progress_reward: -0.004775402178066889
+Step 013/100 | Avg Reward: -26.1250 | Avg Episode Length: 300.0 | collect time: 7.54 s
+update policy in 0.30 s
+dist_reward 0.3140551293149599 | base_reward: 0.08727567551594724 | progress_reward: 0.19606544805982062 | angle_progress_reward: 0.0
+Step 014/100 | Avg Reward: -30.3040 | Avg Episode Length: 300.0 | collect time: 7.43 s
+update policy in 0.30 s
+dist_reward 0.23106441794674915 | base_reward: 0.07406704882379121 | progress_reward: 0.23072368163877255 | angle_progress_reward: 0.0
+Step 015/100 | Avg Reward: -31.5699 | Avg Episode Length: 300.0 | collect time: 8.10 s
+update policy in 0.31 s
+dist_reward 0.2712994464394024 | base_reward: 0.0833938762183681 | progress_reward: 0.06179634923716981 | angle_progress_reward: 0.0
+Step 016/100 | Avg Reward: -32.6327 | Avg Episode Length: 300.0 | collect time: 7.84 s
+update policy in 0.31 s
+dist_reward 0.16923320188769436 | base_reward: 0.11025687308308643 | progress_reward: 0.3896366264773965 | angle_progress_reward: 0.0
+Step 017/100 | Avg Reward: -18.6795 | Avg Episode Length: 300.0 | collect time: 8.89 s
+update policy in 0.31 s
+dist_reward 0.2943648410361796 | base_reward: 0.06256698969153619 | progress_reward: -0.9727924863017392 | angle_progress_reward: -0.000218747698410754
+Step 018/100 | Avg Reward: -39.0576 | Avg Episode Length: 300.0 | collect time: 8.34 s
+update policy in 0.34 s
+dist_reward 0.3234065348856417 | base_reward: 0.12430661984616721 | progress_reward: 0.2350768077174964 | angle_progress_reward: 0.0
+Step 019/100 | Avg Reward: -3.8101 | Avg Episode Length: 300.0 | collect time: 8.82 s
+update policy in 0.32 s
+dist_reward 0.3447148646337624 | base_reward: 0.08989125146305858 | progress_reward: 0.21399081268993203 | angle_progress_reward: 0.0
+Step 020/100 | Avg Reward: 13.1190 | Avg Episode Length: 300.0 | collect time: 8.13 s
+update policy in 0.28 s
+dist_reward 0.2310183474704287 | base_reward: 0.07166594524010567 | progress_reward: 0.4078906751845857 | angle_progress_reward: 0.0
+Step 021/100 | Avg Reward: -37.0671 | Avg Episode Length: 300.0 | collect time: 7.31 s
+update policy in 0.31 s
+dist_reward 0.36724574663084764 | base_reward: 0.0672292127151996 | progress_reward: -12.792903291327887 | angle_progress_reward: -0.027157747495903713
+Step 022/100 | Avg Reward: -4.4560 | Avg Episode Length: 300.0 | collect time: 7.76 s
+update policy in 0.32 s
+dist_reward 0.29458101333795483 | base_reward: 0.12726199041291192 | progress_reward: 0.4620567960690492 | angle_progress_reward: 0.0
+Step 023/100 | Avg Reward: -9.1150 | Avg Episode Length: 300.0 | collect time: 7.66 s
+update policy in 0.31 s
+dist_reward 0.23782640639618613 | base_reward: 0.15136549599495658 | progress_reward: 0.0873760578629923 | angle_progress_reward: 0.0
+Step 024/100 | Avg Reward: -8.1879 | Avg Episode Length: 300.0 | collect time: 7.32 s
+update policy in 0.32 s
+dist_reward 0.2832881520371925 | base_reward: 0.09959044569516692 | progress_reward: 0.43637955270718903 | angle_progress_reward: 0.0
+Step 025/100 | Avg Reward: -14.3909 | Avg Episode Length: 300.0 | collect time: 7.71 s
+update policy in 0.31 s
+dist_reward 0.21742000852140056 | base_reward: 0.05266409917491258 | progress_reward: 0.357928239398514 | angle_progress_reward: 0.0
+Step 026/100 | Avg Reward: 1.3881 | Avg Episode Length: 300.0 | collect time: 7.59 s
+update policy in 0.29 s
+dist_reward 0.33440270892392343 | base_reward: 0.10890633014591902 | progress_reward: 0.39690801878467524 | angle_progress_reward: 0.0
+Step 027/100 | Avg Reward: 2.9691 | Avg Episode Length: 300.0 | collect time: 7.53 s
+update policy in 0.28 s
+dist_reward 0.24612347862061956 | base_reward: 0.14818859452736458 | progress_reward: -0.14672485832377682 | angle_progress_reward: 0.0
+Step 028/100 | Avg Reward: 11.7453 | Avg Episode Length: 300.0 | collect time: 7.63 s
+update policy in 0.32 s
+dist_reward 0.34595489711086985 | base_reward: 0.09621870338817047 | progress_reward: 0.4399324907961799 | angle_progress_reward: 0.0
+Step 029/100 | Avg Reward: -2.5452 | Avg Episode Length: 300.0 | collect time: 7.87 s
+update policy in 0.33 s
+dist_reward 0.21842997067020795 | base_reward: 0.1107604075325584 | progress_reward: 0.26524008078835376 | angle_progress_reward: 0.0
+Step 030/100 | Avg Reward: 1.5794 | Avg Episode Length: 300.0 | collect time: 8.16 s
+update policy in 0.32 s
+dist_reward 0.2411912026056353 | base_reward: 0.19740534809518112 | progress_reward: 0.07592145181470333 | angle_progress_reward: 0.0
+Step 031/100 | Avg Reward: -25.5049 | Avg Episode Length: 300.0 | collect time: 7.98 s
+update policy in 0.31 s
+dist_reward 0.2356454064306881 | base_reward: 0.15341791528335516 | progress_reward: 0.2593268952991779 | angle_progress_reward: 0.0
+Step 032/100 | Avg Reward: 2.0369 | Avg Episode Length: 300.0 | collect time: 8.51 s
+update policy in 0.68 s
+dist_reward 0.24893146388704812 | base_reward: 0.15535936278128087 | progress_reward: 0.4299958208339283 | angle_progress_reward: 0.0
+Step 033/100 | Avg Reward: -26.4907 | Avg Episode Length: 300.0 | collect time: 8.93 s
+update policy in 0.44 s
+dist_reward 0.2943538512829446 | base_reward: 0.17595836651864183 | progress_reward: 0.3084145275964678 | angle_progress_reward: 0.0
+Step 034/100 | Avg Reward: 6.9119 | Avg Episode Length: 300.0 | collect time: 8.92 s
+update policy in 0.36 s
+dist_reward 0.2566142564125799 | base_reward: 0.12459757830476612 | progress_reward: -0.16225418431405905 | angle_progress_reward: 0.0
+Step 035/100 | Avg Reward: -6.6710 | Avg Episode Length: 300.0 | collect time: 8.69 s
+update policy in 0.32 s
+dist_reward 0.3725162363996426 | base_reward: 0.07728594868935836 | progress_reward: 1.0 | angle_progress_reward: -0.005307426495252787
+Step 036/100 | Avg Reward: -25.5625 | Avg Episode Length: 300.0 | collect time: 8.25 s
+update policy in 0.33 s
+dist_reward 0.3732857237705334 | base_reward: 0.1005160979462125 | progress_reward: -7.476576754314383 | angle_progress_reward: 0.026336424351798983
+Step 037/100 | Avg Reward: 1.1116 | Avg Episode Length: 300.0 | collect time: 8.34 s
+update policy in 0.33 s
+dist_reward 0.23872947752816076 | base_reward: 0.0945787694876614 | progress_reward: 0.3285078669435005 | angle_progress_reward: 0.0
+Step 038/100 | Avg Reward: -9.8911 | Avg Episode Length: 288.0 | collect time: 7.98 s
+update policy in 0.34 s
+dist_reward 0.2961547634965598 | base_reward: 0.08900549244712398 | progress_reward: 0.09530494474715435 | angle_progress_reward: 0.0
+Step 039/100 | Avg Reward: -32.5953 | Avg Episode Length: 300.0 | collect time: 8.62 s
+update policy in 0.33 s
+dist_reward 0.3078394741397835 | base_reward: 0.11730254320609729 | progress_reward: 0.4586345698847333 | angle_progress_reward: 0.0
+Step 040/100 | Avg Reward: 17.5259 | Avg Episode Length: 300.0 | collect time: 8.29 s
+update policy in 0.34 s
+dist_reward 0.37789571008008227 | base_reward: 0.1079738588477079 | progress_reward: 1.0 | angle_progress_reward: -0.008249809906700796
+Step 041/100 | Avg Reward: 8.8780 | Avg Episode Length: 300.0 | collect time: 7.97 s
+update policy in 0.32 s
+dist_reward 0.3602053018917297 | base_reward: 0.19279763711208708 | progress_reward: -5.674178311325716 | angle_progress_reward: -0.02780504852764842
+Step 042/100 | Avg Reward: -14.8620 | Avg Episode Length: 300.0 | collect time: 8.09 s
+update policy in 0.29 s
+dist_reward 0.2244506012468019 | base_reward: 0.1643313434317932 | progress_reward: 0.4155871826013791 | angle_progress_reward: 0.0
+Step 043/100 | Avg Reward: -0.5482 | Avg Episode Length: 300.0 | collect time: 7.85 s
+update policy in 0.31 s
+dist_reward 0.2977476243399692 | base_reward: 0.15431442002992404 | progress_reward: 0.4802295127370293 | angle_progress_reward: 0.0
+Step 044/100 | Avg Reward: 13.2832 | Avg Episode Length: 300.0 | collect time: 7.68 s
+update policy in 0.32 s
+dist_reward 0.30480847020436697 | base_reward: 0.08909288049094567 | progress_reward: -0.03979673101575654 | angle_progress_reward: 0.0
+Step 045/100 | Avg Reward: -26.5461 | Avg Episode Length: 300.0 | collect time: 8.08 s
+update policy in 0.32 s
+dist_reward 0.2234330468743754 | base_reward: 0.09600166651976494 | progress_reward: -0.033711916508338824 | angle_progress_reward: 0.0
+Step 046/100 | Avg Reward: 26.0096 | Avg Episode Length: 300.0 | collect time: 8.56 s
+update policy in 0.31 s
+dist_reward 0.2706382368392991 | base_reward: 0.1454007345027558 | progress_reward: 0.24682970593930545 | angle_progress_reward: 0.0
+Step 047/100 | Avg Reward: -15.7004 | Avg Episode Length: 300.0 | collect time: 7.90 s
+update policy in 0.35 s
+dist_reward 0.20250624926371721 | base_reward: 0.10339898474324216 | progress_reward: -0.051845198883332395 | angle_progress_reward: 0.0
+Step 048/100 | Avg Reward: -1.1250 | Avg Episode Length: 300.0 | collect time: 8.28 s
+update policy in 0.33 s
+dist_reward 0.2723374937218511 | base_reward: 0.1769198874259662 | progress_reward: 0.09888397548081795 | angle_progress_reward: 0.0
+Step 049/100 | Avg Reward: -8.6288 | Avg Episode Length: 300.0 | collect time: 8.65 s
+update policy in 0.30 s
+dist_reward 0.24248907339914416 | base_reward: 0.0475444702445589 | progress_reward: 0.28999316541081793 | angle_progress_reward: 0.0
+Step 050/100 | Avg Reward: 16.0612 | Avg Episode Length: 300.0 | collect time: 7.52 s
+update policy in 0.32 s
+dist_reward 0.3368100205197186 | base_reward: 0.14472906065499647 | progress_reward: -0.03177389398373309 | angle_progress_reward: 0.0
+Step 051/100 | Avg Reward: -30.0316 | Avg Episode Length: 300.0 | collect time: 9.46 s
+update policy in 0.32 s
+dist_reward 0.2946638109825695 | base_reward: 0.09256294683569767 | progress_reward: 0.18396291665724876 | angle_progress_reward: 0.0
+Step 052/100 | Avg Reward: 26.1057 | Avg Episode Length: 300.0 | collect time: 9.36 s
+update policy in 0.36 s
+dist_reward 0.2326451144716072 | base_reward: 0.12224251897593999 | progress_reward: 0.27397288166385314 | angle_progress_reward: 0.0
+Step 053/100 | Avg Reward: 8.1432 | Avg Episode Length: 300.0 | collect time: 9.33 s
+update policy in 0.33 s
+dist_reward 0.24480285796581228 | base_reward: 0.09032768866609323 | progress_reward: 0.35107570932210175 | angle_progress_reward: 0.0
+Step 054/100 | Avg Reward: -8.4514 | Avg Episode Length: 300.0 | collect time: 8.26 s
+update policy in 0.33 s
+dist_reward 0.30320182451450306 | base_reward: 0.05578119985877415 | progress_reward: 0.4910601410080401 | angle_progress_reward: 0.0
+Step 055/100 | Avg Reward: -34.9248 | Avg Episode Length: 300.0 | collect time: 8.26 s
+update policy in 0.34 s
+dist_reward 0.31889483495447274 | base_reward: 0.13676756746482366 | progress_reward: 0.1809174133892616 | angle_progress_reward: 0.0
+Step 056/100 | Avg Reward: -15.8498 | Avg Episode Length: 300.0 | collect time: 8.27 s
+update policy in 0.33 s
+dist_reward 0.31318600335279756 | base_reward: 0.09228619381063924 | progress_reward: -0.11247396047532889 | angle_progress_reward: -0.023372106990258996
+Step 057/100 | Avg Reward: -15.6478 | Avg Episode Length: 300.0 | collect time: 8.81 s
+update policy in 0.35 s
+dist_reward 0.27144565926913006 | base_reward: 0.09612116481721822 | progress_reward: 0.40477957979107587 | angle_progress_reward: 0.0
+Step 058/100 | Avg Reward: -30.0133 | Avg Episode Length: 300.0 | collect time: 8.23 s
+update policy in 0.33 s
+dist_reward 0.29687515934535263 | base_reward: 0.10872426478145625 | progress_reward: 0.32089953889256617 | angle_progress_reward: 0.0
+Step 059/100 | Avg Reward: -39.8237 | Avg Episode Length: 300.0 | collect time: 8.63 s
+update policy in 0.31 s
+dist_reward 0.24166796761588283 | base_reward: 0.09455482945194163 | progress_reward: 0.30657254412743695 | angle_progress_reward: 0.0
+Step 060/100 | Avg Reward: 3.7388 | Avg Episode Length: 300.0 | collect time: 9.82 s
+update policy in 0.33 s
+dist_reward 0.2183290147283298 | base_reward: 0.04517642729056627 | progress_reward: 0.19184340674083256 | angle_progress_reward: 0.0
+Step 061/100 | Avg Reward: -7.4608 | Avg Episode Length: 300.0 | collect time: 8.71 s
+update policy in 0.34 s
+dist_reward 0.3024356288620868 | base_reward: 0.14050595118216608 | progress_reward: -0.08473244319203432 | angle_progress_reward: 0.0
+Step 062/100 | Avg Reward: 5.1284 | Avg Episode Length: 300.0 | collect time: 7.55 s
+update policy in 0.30 s
+dist_reward 0.2735708165863093 | base_reward: 0.144026413092599 | progress_reward: 0.43829900357068025 | angle_progress_reward: 0.0
+Step 063/100 | Avg Reward: 3.0903 | Avg Episode Length: 300.0 | collect time: 7.49 s
+update policy in 0.32 s
+dist_reward 0.30517010917030984 | base_reward: 0.1256163017848339 | progress_reward: 0.47516241652071634 | angle_progress_reward: 0.0
+Step 064/100 | Avg Reward: 11.5853 | Avg Episode Length: 300.0 | collect time: 7.57 s
+update policy in 0.31 s
+dist_reward 0.28586387811815045 | base_reward: 0.05954743169196338 | progress_reward: 0.054322757775132624 | angle_progress_reward: 0.0
+Step 065/100 | Avg Reward: -10.7006 | Avg Episode Length: 300.0 | collect time: 7.87 s
+update policy in 0.30 s
+dist_reward 0.18126873989396117 | base_reward: 0.059230275374940564 | progress_reward: 0.4723299395680059 | angle_progress_reward: 0.0
+Step 066/100 | Avg Reward: 21.1348 | Avg Episode Length: 300.0 | collect time: 7.40 s
+update policy in 0.29 s
+dist_reward 0.2791962187656465 | base_reward: 0.0815718761782349 | progress_reward: 0.29857711263715503 | angle_progress_reward: 0.0
+Step 067/100 | Avg Reward: -13.1212 | Avg Episode Length: 300.0 | collect time: 7.67 s
+update policy in 0.31 s
+dist_reward 0.1786891442434762 | base_reward: 0.07399529612758385 | progress_reward: -0.0029209137787922224 | angle_progress_reward: 0.0
+Step 068/100 | Avg Reward: 0.0223 | Avg Episode Length: 300.0 | collect time: 8.04 s
+update policy in 0.29 s
+dist_reward 0.2569573123132202 | base_reward: 0.06779205085245081 | progress_reward: 0.27038372393682897 | angle_progress_reward: 0.0
+Step 069/100 | Avg Reward: 42.2694 | Avg Episode Length: 300.0 | collect time: 7.71 s
+update policy in 0.31 s
+dist_reward 0.2497220145651928 | base_reward: 0.06271822708187316 | progress_reward: 0.14022755122621855 | angle_progress_reward: 0.0
+Step 070/100 | Avg Reward: 9.4912 | Avg Episode Length: 300.0 | collect time: 7.67 s
+update policy in 0.30 s
+dist_reward 0.2389383967453517 | base_reward: 0.11776558734381122 | progress_reward: 0.5335657001255989 | angle_progress_reward: 0.0
+Step 071/100 | Avg Reward: 16.1011 | Avg Episode Length: 300.0 | collect time: 7.53 s
+update policy in 0.32 s
+dist_reward 0.3321468048900476 | base_reward: 0.10368849616185599 | progress_reward: 0.4194176181814835 | angle_progress_reward: 0.0
+Step 072/100 | Avg Reward: -16.9106 | Avg Episode Length: 300.0 | collect time: 7.45 s
+update policy in 0.31 s
+dist_reward 0.23002076437686655 | base_reward: 0.10495940015878104 | progress_reward: 0.26222928355912334 | angle_progress_reward: 0.0
+Step 073/100 | Avg Reward: -0.2205 | Avg Episode Length: 300.0 | collect time: 7.75 s
+update policy in 0.30 s
+dist_reward 0.29297708055930044 | base_reward: 0.07216436543508524 | progress_reward: 0.5535021251602157 | angle_progress_reward: 0.0
+Step 074/100 | Avg Reward: 10.7957 | Avg Episode Length: 300.0 | collect time: 7.42 s
+update policy in 0.29 s
+dist_reward 0.2881251741598518 | base_reward: 0.0905320378163129 | progress_reward: 0.22303281299251854 | angle_progress_reward: 0.0
+Step 075/100 | Avg Reward: 20.9891 | Avg Episode Length: 300.0 | collect time: 7.70 s
+update policy in 0.30 s
+dist_reward 0.2308223896286651 | base_reward: 0.14907011580850715 | progress_reward: 0.3398740427000113 | angle_progress_reward: 0.0
+Step 076/100 | Avg Reward: -1.6770 | Avg Episode Length: 300.0 | collect time: 7.60 s
+update policy in 0.31 s
+dist_reward 0.3222534986120593 | base_reward: 0.18464187523257314 | progress_reward: 0.6442484460183724 | angle_progress_reward: 0.0
+Step 077/100 | Avg Reward: -14.4574 | Avg Episode Length: 300.0 | collect time: 7.75 s
+update policy in 0.28 s
+dist_reward 0.2871377582882087 | base_reward: 0.0879359436602636 | progress_reward: 0.4350303302638858 | angle_progress_reward: 0.0
+Step 078/100 | Avg Reward: 10.1491 | Avg Episode Length: 300.0 | collect time: 7.80 s
+update policy in 0.29 s
+dist_reward 0.2693034733138823 | base_reward: 0.155917542077749 | progress_reward: 0.42234431917616 | angle_progress_reward: 0.0
+Step 079/100 | Avg Reward: -12.3635 | Avg Episode Length: 300.0 | collect time: 7.60 s
+update policy in 0.32 s
+dist_reward 0.18836227748421197 | base_reward: 0.19521150024003514 | progress_reward: 0.5505553875241432 | angle_progress_reward: 0.0
+Step 080/100 | Avg Reward: 6.8507 | Avg Episode Length: 300.0 | collect time: 7.85 s
+update policy in 0.29 s
+dist_reward 0.19570569013374614 | base_reward: 0.1257867511977232 | progress_reward: 0.35935554936984415 | angle_progress_reward: 0.0
+Step 081/100 | Avg Reward: 10.1327 | Avg Episode Length: 300.0 | collect time: 8.05 s
+update policy in 0.32 s
+dist_reward 0.25629450292809713 | base_reward: 0.09051610330060217 | progress_reward: 0.44922110690621686 | angle_progress_reward: 0.0
+Step 082/100 | Avg Reward: -3.0223 | Avg Episode Length: 300.0 | collect time: 8.13 s
+update policy in 0.29 s
+dist_reward 0.22782399089723518 | base_reward: 0.16060719278364322 | progress_reward: 0.3408019549542396 | angle_progress_reward: 0.0
+Step 083/100 | Avg Reward: 22.4080 | Avg Episode Length: 300.0 | collect time: 7.64 s
+update policy in 0.30 s
+dist_reward 0.23193711647723714 | base_reward: 0.14560703211078205 | progress_reward: 0.331033159337385 | angle_progress_reward: 0.0
+Step 084/100 | Avg Reward: 3.9722 | Avg Episode Length: 300.0 | collect time: 7.34 s
+update policy in 0.32 s
+dist_reward 0.23508775653491717 | base_reward: 0.10566257948681759 | progress_reward: 0.24853290388475724 | angle_progress_reward: 0.0
+Step 085/100 | Avg Reward: 30.9165 | Avg Episode Length: 300.0 | collect time: 7.90 s
+update policy in 0.32 s
+dist_reward 0.2606673605278109 | base_reward: 0.15205886235406474 | progress_reward: 0.07465379293126741 | angle_progress_reward: 0.0
+Step 086/100 | Avg Reward: -15.1924 | Avg Episode Length: 300.0 | collect time: 7.67 s
+update policy in 0.30 s
+dist_reward 0.3000632465075437 | base_reward: 0.058388447944345404 | progress_reward: 0.09435943439603246 | angle_progress_reward: 0.0
+Step 087/100 | Avg Reward: 9.1428 | Avg Episode Length: 300.0 | collect time: 7.59 s
+update policy in 0.29 s
+dist_reward 0.26162514032732587 | base_reward: 0.23775063326326307 | progress_reward: 0.4149914568734814 | angle_progress_reward: 0.0
+Step 088/100 | Avg Reward: 21.8207 | Avg Episode Length: 300.0 | collect time: 7.77 s
+update policy in 0.30 s
+dist_reward 0.21967427371477452 | base_reward: 0.10501299368249421 | progress_reward: 0.5886931969463383 | angle_progress_reward: 0.0
+Step 089/100 | Avg Reward: -14.4624 | Avg Episode Length: 300.0 | collect time: 7.77 s
+update policy in 0.35 s
+dist_reward 0.255895405599426 | base_reward: 0.07214428391055562 | progress_reward: 0.04877580516471358 | angle_progress_reward: 0.0
+Step 090/100 | Avg Reward: 6.0271 | Avg Episode Length: 300.0 | collect time: 7.63 s
+update policy in 0.29 s
+dist_reward 0.25415144811179946 | base_reward: 0.15794100886480444 | progress_reward: 0.4135987480584469 | angle_progress_reward: 0.0
+Step 091/100 | Avg Reward: 30.2584 | Avg Episode Length: 300.0 | collect time: 7.10 s
+update policy in 0.34 s
+dist_reward 0.3141611057278988 | base_reward: 0.1401402225749995 | progress_reward: 0.5577515183572247 | angle_progress_reward: 0.0
+Step 092/100 | Avg Reward: 29.0204 | Avg Episode Length: 300.0 | collect time: 7.65 s
+update policy in 0.33 s
+dist_reward 0.2702985897370182 | base_reward: 0.09134732618000042 | progress_reward: 0.20176786735123245 | angle_progress_reward: 0.0
+Step 093/100 | Avg Reward: 19.9653 | Avg Episode Length: 300.0 | collect time: 8.14 s
+update policy in 0.32 s
+dist_reward 0.28734151862330576 | base_reward: 0.08994593572611745 | progress_reward: 0.17169216235755624 | angle_progress_reward: 0.0
+Step 094/100 | Avg Reward: 28.0089 | Avg Episode Length: 300.0 | collect time: 8.35 s
+update policy in 0.33 s
+dist_reward 0.2607261411537641 | base_reward: 0.148746756664454 | progress_reward: 0.2695507509064221 | angle_progress_reward: 0.0
+Step 095/100 | Avg Reward: 12.6759 | Avg Episode Length: 300.0 | collect time: 7.39 s
+update policy in 0.32 s
+dist_reward 0.2144635375026166 | base_reward: 0.13846589503250398 | progress_reward: 0.18819025536850886 | angle_progress_reward: 0.0
+Step 096/100 | Avg Reward: 36.3946 | Avg Episode Length: 300.0 | collect time: 7.65 s
+update policy in 0.33 s
+dist_reward 0.28443925939436987 | base_reward: 0.06542907748810325 | progress_reward: 0.2647514177334831 | angle_progress_reward: 0.0
+Step 097/100 | Avg Reward: -11.3527 | Avg Episode Length: 290.9 | collect time: 7.78 s
+update policy in 0.28 s
+dist_reward 0.26872375722784797 | base_reward: 0.15657016232897145 | progress_reward: 0.16060539632022366 | angle_progress_reward: 0.0
+Step 098/100 | Avg Reward: 21.7931 | Avg Episode Length: 300.0 | collect time: 7.69 s
+update policy in 0.30 s
+dist_reward 0.3176762311269656 | base_reward: 0.19313731994788882 | progress_reward: 0.37722229067315155 | angle_progress_reward: 0.0
+Step 099/100 | Avg Reward: 11.9774 | Avg Episode Length: 300.0 | collect time: 8.25 s
+update policy in 0.38 s
